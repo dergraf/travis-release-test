@@ -50,12 +50,14 @@ for FILE in `find /opt/vernemq/package/packages -name "*.${PLATFORM}"` ; do
     if [[ $file == *"src.rpm"* ]]; then
         continue
     fi
-    if [[ $file == *"dbgsym"* ]]; then
-        continue
+    if [[ $file == *_amd64.deb ]]; then
+        file=vernemq-$RELEASE.$OS.x86_64.deb
+        mv $FILE $file
+        sha256sum $file >> sha256sums.txt
     fi
-    if [[ $file == *"_amd64.deb"* ]]; then
-        file=${file/_amd64/".${OS}.amd64"}
+    if [[ $file == *.rpm ]]; then
+        file=vernemq-$RELEASE.$OS.x86_64.rpm
+        mv $FILE $file
+        sha256sum $file >> sha256sums.txt
     fi
-    mv $FILE $file
-    sha256sum $file >> sha256sums.txt
 done
