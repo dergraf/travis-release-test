@@ -43,6 +43,8 @@ git checkout $RELEASE
 
 make package
 
+cd /packages
+
 for FILE in `find /opt/vernemq/package/packages -name "*.${PLATFORM}"` ; do
     file=$(basename $FILE)
     if [[ $file == *"src.rpm"* ]]; then
@@ -52,7 +54,8 @@ for FILE in `find /opt/vernemq/package/packages -name "*.${PLATFORM}"` ; do
         continue
     fi
     if [[ $file == *"_amd64.deb"* ]]; then
-        file=${file/_amd64/".${os}.amd64"}
+        file=${file/_amd64/".${OS}.amd64"}
     fi
-    mv $FILE /packages/$file
+    mv $FILE $file
+    sha256sum $file >> sha256sums.txt
 done
