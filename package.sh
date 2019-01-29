@@ -43,7 +43,7 @@ git checkout $RELEASE
 
 make package
 
-for FILE in `find /opt/vernemq/package/packages --name "*.${PLATFORM}*"` ; do
+for FILE in `find /opt/vernemq/package/packages -name "*.${PLATFORM}*"` ; do
     file=$(basename $FILE)
     extension="${file#*.}"
     file_wo_ext="${file%%.*}"
