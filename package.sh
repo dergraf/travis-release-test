@@ -52,7 +52,7 @@ for FILE in `find /opt/vernemq/package/packages -name "*.${PLATFORM}"` ; do
         continue
     fi
     if [[ $file == *"_amd64.deb"* ]]; then
-        file=${file/_amd64/".${OS}_amd64"/}
+        file=${file/_amd64/".${os}.amd64"}
     fi
     mv $FILE /packages/$file
 done
