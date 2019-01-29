@@ -43,9 +43,16 @@ git checkout $RELEASE
 
 make package
 
-for FILE in `find /opt/vernemq/package/packages -name "*.${PLATFORM}*"` ; do
+for FILE in `find /opt/vernemq/package/packages -name "*.${PLATFORM}"` ; do
     file=$(basename $FILE)
-    extension="${file#*.}"
-    file_wo_ext="${file%%.*}"
-    mv $FILE /packages/$file_wo_ext-$OS-$extension
+    if [[ $file == *"src.rpm"* ]]; then
+        continue
+    fi
+    if [[ $file == *"dbgsym"* ]]; then
+        continue
+    fi
+    if [[ $file == *"_amd64.deb"* ]]; then
+        file=${file/_amd64/".${OS}_amd64"/}
+    fi
+    mv $FILE /packages/$file
 done
