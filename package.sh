@@ -50,6 +50,9 @@ for FILE in `find /opt/vernemq/package/packages -name "*.${PLATFORM}"` ; do
     if [[ $file == *"src.rpm"* ]]; then
         continue
     fi
+    if [[ $file == *"dbgsym"* ]]; then
+        continue
+    fi
     if [[ $file == *_amd64.deb ]]; then
         file=vernemq-$RELEASE.$OS.x86_64.deb
         mv $FILE $file
