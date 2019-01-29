@@ -1,10 +1,15 @@
 language: minimal
 
+before_deploy:
+  - mkdir packages
+  - docker run --rm -it -v ${PWD}/packages:/packages -v ${PWD}/package.sh:/tmp/package.sh erlio/erlang:stretch /tmp/package.sh 20.3.8.9 $TRAVIS_TAG deb stretch
+  - docker run --rm -it -v ${PWD}/packages:/packages -v ${PWD}/package.sh:/tmp/package.sh erlio/erlang:jessie /tmp/package.sh 20.3.8.9 $TRAVIS_TAG deb jessie
+
 deploy:
   provider: releases
   api_key: "$GITHUB_OAUTH_TOKEN"
   file_glob: true
-  file: packages/**/*
+  file: packages/*
   skip_cleanup: true
   on:
     tags: true
