@@ -13,9 +13,10 @@ cache:
     - plts
     - plts_base
 
+script: echo "running test"
+
 jobs:
   include:
-    - script: echo "running test"
     - stage: GitHub Release
       before_deploy:
         - mkdir packages
