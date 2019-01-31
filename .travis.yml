@@ -7,23 +7,24 @@ language: erlang
 install: true
 otp_release:
     - 20.3.8
+    - 21.2
 cache:
   directories:
     - plts
     - plts_base
 
-script: "true"
-
-before_deploy:
-  - mkdir packages
-  - docker run --rm -it -v ${PWD}/packages:/packages -v ${PWD}/.travis-helpers/package.sh:/tmp/package.sh erlio/erlang:suse /tmp/package.sh 21.2.4 $TRAVIS_TAG rpm suse
-
-deploy:
-  provider: releases
-  api_key: "$GITHUB_OAUTH_TOKEN"
-  file_glob: true
-  file: packages/*
-  skip_cleanup: true
-  on:
-    tags: true
-
+jobs:
+  include:
+    - script: echo "running test"
+    - stage: GitHub Release
+      before_deploy:
+        - mkdir packages
+        - docker run --rm -it -v ${PWD}/packages:/packages -v ${PWD}/.travis-helpers/package.sh:/tmp/package.sh erlio/erlang:suse /tmp/package.sh 21.2.4 $TRAVIS_TAG rpm suse
+      deploy:
+        provider: releases
+        api_key: "$GITHUB_OAUTH_TOKEN"
+        file_glob: true
+        file: packages/*
+        skip_cleanup: true
+        on:
+          tags: true
