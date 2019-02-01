@@ -13,7 +13,7 @@ cache:
     - plts
     - plts_base
 
-script: echo "running test"
+script: echo "running testt"
 
 jobs:
   include:
