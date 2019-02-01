@@ -18,6 +18,7 @@ script: echo "running testt"
 jobs:
   include:
     - stage: GitHub Release
+      script: true
       before_deploy:
         - mkdir packages
         - docker run --rm -it -v ${PWD}/packages:/packages -v ${PWD}/.travis-helpers/package.sh:/tmp/package.sh erlio/erlang:suse /tmp/package.sh 21.2.4 $TRAVIS_TAG rpm suse
